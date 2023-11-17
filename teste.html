@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contagem Regressiva para o Natal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    .content h1{
+    font-size: 35px;
+    color: #fff;
+    margin-bottom: 30px;
+}
+    #countdown {
+      font-size: 36px;
+      font-weight: bold;
+      color: #fffdfd;
+    }
+    .container{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content{
+    text-align: center;
+    margin-top: -100px;
+}
+.background-clip{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+@media (min-aspect-ratio:16/9) {
+    .background-clip{
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-aspect-ratio:16/9) {
+    .background-clip{
+        width: auto;
+        height: 100%;
+    }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <video autoplay loop muted plays-inline class="background-clip">
+      <source src="xmas_shot-v3-compressed.mp4" type="video/mp4">
+    </video>
+
+    <div class="content">
+      <h1>Contagem Regressiva para o Natal</h1>
+      <div id="countdown"></div>
+    </div>
+       
+  <script>
+    // Função para calcular a diferença entre as datas
+    function getTimeRemaining(endtime) {
+      const total = Date.parse(endtime) - Date.parse(new Date());
+      const seconds = Math.floor((total / 1000) % 60);
+      const minutes = Math.floor((total / 1000 / 60) % 60);
+      const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+      const days = Math.floor(total / (1000 * 60 * 60 * 24));
+      return {
+        total,
+        days,
+        hours,
+        minutes,
+        seconds
+      };
+    }
+
+    // Função para exibir a contagem regressiva
+    function initializeClock(endtime) {
+      const countdownElement = document.getElementById('countdown');
+
+      function updateClock() {
+        const t = getTimeRemaining(endtime);
+
+        countdownElement.innerHTML = `${t.days} dias ${t.hours}:${('0' + t.minutes).slice(-2)}:${('0' + t.seconds).slice(-2)}`;
+
+        if (t.total <= 0) {
+          clearInterval(timeinterval);
+        }
+      }
+
+      updateClock();
+      const timeinterval = setInterval(updateClock, 1000);
+    }
+
+    // Data do Natal (ano atual)
+    const currentYear = new Date().getFullYear();
+    const christmasDate = new Date(`${currentYear}-12-25T00:00:00`);
+
+    // Inicializa a contagem regressiva
+    initializeClock(christmasDate);
+  </script>
+
+</body>
+</html>
